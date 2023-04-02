@@ -17,6 +17,8 @@ class MostOrdered extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppPadding(
       top: 50,
+      start: 16,
+      end: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,6 +38,9 @@ class MostOrdered extends StatelessWidget {
           ),
           Container(
             height: 130.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 2,
@@ -43,7 +48,17 @@ class MostOrdered extends StatelessWidget {
                   return AppPadding(
                     start: 15,
                     top: 15,
-                    child: Image.asset(images[index]),
+                    child: Container(
+                      width: 240.w,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r),
+                          image: DecorationImage(
+                            image: AssetImage(
+                              images[index],
+                            ),
+                            fit: BoxFit.cover,
+                          )),
+                    ),
                   );
                 }),
           )
