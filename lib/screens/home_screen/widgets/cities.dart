@@ -14,7 +14,7 @@ class CitySelection extends StatelessWidget {
       padding: 16,
       child: AppPadding(
         top: 28,
-        bottom: 31,
+        bottom: 15,
         child: Row(
           children: [
             Image.asset(AssetImagesPaths.map),

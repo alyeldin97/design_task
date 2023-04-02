@@ -1,10 +1,14 @@
 import 'dart:developer';
 
+import 'package:action_slider/action_slider.dart';
+import 'package:another_xlider/another_xlider.dart';
+import 'package:another_xlider/models/handler.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:design_task/constants/colors.dart';
 import 'package:design_task/screens/core/reusable_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:slidable_button/slidable_button.dart';
 
 import '../../../constants/images.dart';
 
@@ -17,7 +21,17 @@ class Ads extends StatefulWidget {
 
 class _AdsState extends State<Ads> {
   final CarouselController carouselController = CarouselController();
+
   int currentIndex = 0;
+  ActionSliderController? controller;
+
+  @override
+  void initState() {
+    controller = ActionSliderController();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,9 +52,15 @@ class _AdsState extends State<Ads> {
                 height: double.infinity,
                 disableCenter: true,
                 onPageChanged: (index, reason) {
-                  setState(() {
-                    currentIndex = index;
-                  });
+                  if (controller != null) {
+                    if (index == 0) {
+                      controller!.jump(0.1);
+                    } else if (index == 1) {
+                      controller!.jump(0.5);
+                    } else {
+                      controller!.jump(0.9);
+                    }
+                  }
                 }),
             items: [
               AppPadding(
@@ -55,65 +75,68 @@ class _AdsState extends State<Ads> {
                           fit: BoxFit.cover)),
                 ),
               ),
+              AppPadding(
+                start: 10,
+                child: Container(
+                  height: 361.h,
+                  width: 324.w,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      image: DecorationImage(
+                          image: AssetImage(AssetImagesPaths.cookdoor),
+                          fit: BoxFit.cover)),
+                ),
+              ),
+              AppPadding(
+                start: 10,
+                child: Container(
+                  height: 361.h,
+                  width: 324.w,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      image: DecorationImage(
+                          image: AssetImage(AssetImagesPaths.spectra),
+                          fit: BoxFit.cover)),
+                ),
+              ),
             ],
           ),
         ),
-        //      HorizontalSlidableButton(
-        //   width: MediaQuery.of(context).size.width / 3,
-        //   buttonWidth: 60.0,
-        //   color: Theme.of(context).accentColor.withOpacity(0.5),
-        //   buttonColor: Theme.of(context).primaryColor,
-        //   dismissible: false,
-        //   label: Center(child: Text('Slide Me')),
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       children: [
-        //         Text('Left'),
-        //         Text('Right'),
-        //       ],
-        //     ),
-        //   ),
-        //   onChanged: (position) {
-        //     setState(() {
-        //       if (position == SlidableButtonPosition.end) {
-        //         result = 'Button is on the right';
-        //       } else {
-        //         result = 'Button is on the left';
-        //       }
-        //     });
-        //   },
-        // ),
+        ActionSlider.standard(
+          sliderBehavior: SliderBehavior.move,
+          stateChangeCallback: (state, state2, controller) {
+            double position = double.parse(state2.position.toStringAsFixed(2));
+            bool isFromAutomaticSlide =
+                position == 0.1 || position == 0.5 || position == 0.9;
+
+            if (!isFromAutomaticSlide && (position > 0.0 && position < 0.29)) {
+              carouselController.jumpToPage(0);
+            } else if (!isFromAutomaticSlide &&
+                position > 0.29 &&
+                position < 0.6) {
+              carouselController.jumpToPage(1);
+            } else if (!isFromAutomaticSlide &&
+                position > 0.6 &&
+                position < 1.0) {
+              carouselController.jumpToPage(2);
+            }
+          },
+          reverseSlideAnimationDuration: Duration(seconds: 100000),
+          rolling: false,
+          height: 20.h,
+          width: 50.w,
+          backgroundColor: AppColors.grey,
+          boxShadow: [],
+          controller: controller,
+          icon: Container(
+            width: 30.w,
+            height: 10.h,
+            decoration: BoxDecoration(
+                color: AppColors.green,
+                borderRadius: BorderRadius.circular(10.r)),
+          ),
+        )
       ],
     );
   }
 }
-
-
-//  Center(
-//           child: Container(
-//             width: 50.w,
-//             child: AppPadding(
-//                 start: 50,
-//                 child: SliderTheme(
-//                   data: SliderThemeData(
-//                     inactiveTrackColor: AppColors.grey,
-//                     activeTickMarkColor: AppColors.grey,
-//                     valueIndicatorColor: AppColors.grey,
-//                     overlayColor: AppColors.grey,
-//                     activeTrackColor: AppColors.grey,
-//                     thumbColor: AppColors.green,
-//                   ),
-//                   child: Slider(
-//                     max: 2.0,
-//                     min: 0.0,
-//                     value: 1,
-//                     onChanged: (newValue) {
-//                       log('rr');
-//                       currentIndex = newValue.toInt();
-//                     },
-//                   ),
-//                 )),
-//           ),
-//         )

@@ -1,11 +1,25 @@
 import 'package:design_task/constants/colors.dart';
+import 'package:design_task/constants/images.dart';
 import 'package:design_task/screens/core/reusable_widgets.dart';
 import 'package:design_task/screens/core/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReOrder extends StatelessWidget {
-  const ReOrder({super.key});
+  List images = [
+    AssetImagesPaths.indian,
+    AssetImagesPaths.fastOrderSmall,
+  ];
+  List names = [
+    'مطعم هندي',
+    'طلب سريع',
+  ];
+
+  List descriptions = [
+    'وجبة العاءلة',
+    '',
+  ];
+  ReOrder({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +44,7 @@ class ReOrder extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
-                          children: [],
+                          children: [Image.asset(AssetImagesPaths.indian)],
                         ),
                       ],
                     ),
